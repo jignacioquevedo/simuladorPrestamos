@@ -1,0 +1,101 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('./icons/fondo_pantalla.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.7); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo de la barra de navegación con opacidad */
+    border-radius: 5px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+#buttons-container {
+    display: flex;
+}
+
+#navbar h1 {
+    margin: 0;
+}
+
+#navbar button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+#navbar button:hover {
+    background-color: #45a049;
+}
+
+#form-container, #historial-container, #resultadoDiv {
+    margin-top: 60px; 
+}
+
+#form-container h2, #historial-container h2 {
+    text-align: center;
+}
+
+#solicitarPrestamoBtn, #mostrarHistorialBtn, #borrarHistorialBtn {
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#form-container h2, #historial-container h2 {
+    text-align: center;
+}
+
+#form-container input, #form-container select, #form-container button,
+#historial-container div, #historial-container p {
+    margin-bottom: 10px;
+    width: calc(100% - 16px);
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+#form-container button:hover, #historial-container button:hover {
+    background-color: #45a049;
+}
+
+#historial-container div {
+    padding: 10px;
+    border-radius: 5px;
+}

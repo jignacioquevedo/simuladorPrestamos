@@ -3,10 +3,49 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Pre Entrega2 - Quevedo Ignacio</title>
+        <link rel="stylesheet" href="styles.css">
+        
+        <title>Simulador de Prestamos</title>
     </head>
     <body>
-        <h1>Simulador de Prestamos</h1>
+        <div id="navbar">
+            <h1>Simulador de Prestamos</h1>
+            <div id="buttons-container">
+                <button id="solicitarPrestamoBtn">Solicitar Prestamo</button>
+                <button id="mostrarHistorialBtn">Ver Historial de Prestamos</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div id="form-container">
+                <h2> Solicitud de Prestamo</h2>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" required><br>
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" required><br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" required><br>
+                <label for="tipoPrestamo">Tipo de Prestamo:</label>
+                <select id="tipoPrestamo" required>
+                    <option value="12">12 meses</option>
+                    <option value="18">18 meses</option>
+                    <option value="36">36 meses</option>
+                </select><br>
+                <label for="monto">Monto Solicitado:</label>
+                <input type="number" id="monto" required><br>
+    
+                <button id="calcularBtn">Simular Prestamo</button>
+            </div>
+
+            <div id="historial-container" style="display: none;">
+                <h2>Historial de Prestamos</h2>
+                <div id="historial"></div>
+                <button id="borrarHistorialBtn">Borrar Historial</button>
+            </div>
+    
+            <div id="resultadoDiv"></div>
+        </div>
+
         <script src="main.js"></script>
     </body>
 </html>
