@@ -1,18 +1,24 @@
-document.addEventListener('DOMContentLoaded', function() {
+import axios from 'axios';
+
+document.addEventListener('DOMContentLoaded', async function() {
     
+    const API_KEY = 'QsV6hwL1ei13ndxw3QgkIY6m6g6BWUmf';
+
     const nombreInput = document.getElementById('nombre');
     const apellidoInput = document.getElementById('apellido');
     const emailInput = document.getElementById('email');
     const tipoPrestamoSelect = document.getElementById('tipoPrestamo');
     const montoInput = document.getElementById('monto');
-    const calcularBtn = document.getElementById('calcularBtn');
+    
     const resultadoDiv = document.getElementById('resultadoDiv');
-    const solicitarPrestamoBtn = document.getElementById('solicitarPrestamoBtn');
-    const mostrarHistorialBtn = document.getElementById('mostrarHistorialBtn');
     const formContainer = document.getElementById('form-container');
     const historialContainer = document.getElementById('historial-container');
     const historial = document.getElementById('historial');
+
+    const solicitarPrestamoBtn = document.getElementById('solicitarPrestamoBtn');
+    const mostrarHistorialBtn = document.getElementById('mostrarHistorialBtn');
     const borrarHistorialBtn = document.getElementById('borrarHistorialBtn');
+    const calcularBtn = document.getElementById('calcularBtn');
 
     let prestamos = JSON.parse(localStorage.getItem('prestamos')) || [];
 
@@ -30,11 +36,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     borrarHistorialBtn.addEventListener('click', function() {
         localStorage.removeItem('prestamos');
-        
         historial.innerHTML = '<p>Historial borrado.</p>';
     });
 
-    calcularBtn.addEventListener('click', function() {
+    calcularBtn.addEventListener('click', async function() {
         
         const nombre = nombreInput.value;
         const apellido = apellidoInput.value;
@@ -45,23 +50,18 @@ document.addEventListener('DOMContentLoaded', function() {
         let tasaInteres = 0;
         let cuotas = 0;
 
-        switch (tipoPrestamo) {
-            case "12":
-                tasaInteres = 1.29;
-                cuotas = 12;
-                break;
-            case "18":
-                tasaInteres = 1.76; 
-                cuotas = 18;
-                break;
-            case "36":
-                tasaInteres = 2.17; 
-                cuotas = 36;
-                break;
-            default:
-                alert("Opcion no valida. Seleccione nuevamente una opcion.");
-                return;
-        }
+            try{
+                const response = await axios.get(`https://financialmodelingprep.com/api/v3/market/interest-rate?apikey=${API_KEY}`);
+                const data = response.data;
+
+                resultadoDiv.innerHTML = `<p>Tasas de Interes:</p>
+                                        <p>Tasa a 30 años: ${data.thirtyYear}</p>
+                                        <p>Tasa a 15 años: ${data.fifteenYear}</p>
+                                        <p>Tasa a 5 años: ${data.fiveYear}</p>`;
+            } catch(error){
+                console.error('Error: ', error.message);
+            }
+        
 
         function calculoInteres(montoPrestamo, tasaInteres){
             return montoPrestamo * tasaInteres;
@@ -82,24 +82,22 @@ document.addEventListener('DOMContentLoaded', function() {
         const totalDevolver = totalADevolver(monto, tasaInteres);
         
         const prestamo = {
-            nombre: nombre,
-            apellido: apellido,
-            email: email,
-            tipoPrestamo: tipoPrestamo,
-            monto: monto,
+            nombre,
+            apellido,
+            email,
+            tipoPrestamo,
+            monto,
             tasa: tasaInteres,
-            cuotas: cuotas,
+            cuotas,
             cuotaMensual: cuotaMensual.toFixed(2),
             totalDevolver: totalDevolver.toFixed(2)
         };
         
-        const prestamos = JSON.parse(localStorage.getItem('prestamos')) || [];
-
         prestamos.push(prestamo);
-        
         localStorage.setItem('prestamos', JSON.stringify(prestamos));
         
-        mostrarResultadoPrestamo(nombre, apellido, email, tipoPrestamo, monto, tasaInteres, cuotas, cuotaMensual, totalDevolver);;
+        mostrarResultadoPrestamo(nombre, apellido, email, tipoPrestamo, monto, tasaInteres, cuotas, cuotaMensual, totalDevolver);
+        mostrarHistorialPrestamos();
     });
     
     function mostrarResultadoPrestamo(nombre, apellido, email, tipoPrestamo, monto, tasaInteres, cuotas, cuotaMensual, totalDevolver){
